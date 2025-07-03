@@ -30,13 +30,43 @@
 
     .glitch-text span {
       display: inline-block;
-      transition: all 0.1s ease;
+      position: relative;
+      transition: all 0.3s ease;
     }
 
     .glitch-active {
-      opacity: 0;
-      transform: scale(1.2) rotate(2deg);
-      filter: blur(2px);
+      opacity: 0.2;
+      filter: blur(1px) brightness(2);
+    }
+
+    .glitch-active::before,
+    .glitch-active::after {
+      content: attr(data-char);
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0.8;
+      mix-blend-mode: screen;
+      animation: glitch-anim 0.5s steps(1, end);
+    }
+
+    .glitch-active::before {
+      color: #0ff;
+      transform: translate(-2px, 1px);
+    }
+
+    .glitch-active::after {
+      color: #f0f;
+      transform: translate(2px, -1px);
+    }
+
+    @keyframes glitch-anim {
+      0% { transform: translate(0); }
+      20% { transform: translate(-2px, 2px); }
+      40% { transform: translate(-2px, -2px); }
+      60% { transform: translate(2px, 2px); }
+      80% { transform: translate(2px, -2px); }
+      100% { transform: translate(0); }
     }
 
     h1 {
@@ -98,14 +128,13 @@
     const text = "LokiOps.ai";
     const container = document.getElementById("glitch-text");
 
-    // Create spans for each character
     text.split('').forEach(char => {
       const span = document.createElement("span");
       span.textContent = char;
+      span.setAttribute("data-char", char);
       container.appendChild(span);
     });
 
-    // Randomly glitch characters
     setInterval(() => {
       const spans = container.querySelectorAll("span");
       const randomIndex = Math.floor(Math.random() * spans.length);
@@ -115,8 +144,8 @@
 
       setTimeout(() => {
         span.classList.remove("glitch-active");
-      }, 120); // Glitch duration
-    }, 120); // Interval between glitches
+      }, 800); // Glitch duration
+    }, 800); // Interval between glitches
   </script>
 </body>
 </html>
