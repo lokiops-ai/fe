@@ -28,43 +28,21 @@
       margin-bottom: 1.5rem;
     }
 
+    .glitch-text span {
+      display: inline-block;
+      transition: all 0.1s ease;
+    }
+
+    .glitch-active {
+      opacity: 0;
+      transform: scale(1.2) rotate(2deg);
+      filter: blur(2px);
+    }
+
     h1 {
       font-size: 2.5rem;
       margin-bottom: 1rem;
       color: #a259ff;
-      position: relative;
-      display: inline-block;
-      animation: glitch 4s infinite;
-    }
-
-    @keyframes glitch {
-      0% {
-        text-shadow: 2px 0 red, -2px 0 blue;
-        opacity: 1;
-      }
-      20% {
-        text-shadow: -2px 0 red, 2px 0 blue;
-        opacity: 0.8;
-      }
-      40% {
-        text-shadow: 2px 2px red, -2px -2px blue;
-        opacity: 0.4;
-      }
-      50% {
-        opacity: 0;
-      }
-      60% {
-        text-shadow: -2px -2px red, 2px 2px blue;
-        opacity: 0.4;
-      }
-      80% {
-        text-shadow: 2px 0 red, -2px 0 blue;
-        opacity: 0.9;
-      }
-      100% {
-        text-shadow: none;
-        opacity: 1;
-      }
     }
 
     p {
@@ -107,7 +85,7 @@
 <body>
   <div class="container">
     <img src="lokiops-logo.png" alt="LokiOps Logo" class="logo" />
-    <h1 class="glitch-text">LokiOps.ai</h1>
+    <h1 class="glitch-text" id="glitch-text"></h1>
     <p>AI-powered Chaos Engineering for DevOps teams.<br />Generate, run, and analyze resilience tests before production breaks.</p>
     <form class="form" action="https://formspree.io/f/your-form-id" method="POST">
       <input type="email" name="email" placeholder="Enter your email to get updates" required />
@@ -115,5 +93,30 @@
     </form>
     <div class="footer">© 2025 LokiOps.ai – Built for chaos, designed for control.</div>
   </div>
+
+  <script>
+    const text = "LokiOps.ai";
+    const container = document.getElementById("glitch-text");
+
+    // Create spans for each character
+    text.split('').forEach(char => {
+      const span = document.createElement("span");
+      span.textContent = char;
+      container.appendChild(span);
+    });
+
+    // Randomly glitch characters
+    setInterval(() => {
+      const spans = container.querySelectorAll("span");
+      const randomIndex = Math.floor(Math.random() * spans.length);
+      const span = spans[randomIndex];
+
+      span.classList.add("glitch-active");
+
+      setTimeout(() => {
+        span.classList.remove("glitch-active");
+      }, 120); // Glitch duration
+    }, 120); // Interval between glitches
+  </script>
 </body>
 </html>
